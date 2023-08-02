@@ -6,12 +6,13 @@
 #include "GameFramework/Character.h"
 #include "ABCharacterBase.generated.h"
 
-
 UENUM()
-enum class ECharacterControlType : uint8 {
+enum class ECharacterControlType : uint8
+{
 	Shoulder,
 	Quater
 };
+
 
 UCLASS()
 class ARENABATTLE_API AABCharacterBase : public ACharacter
@@ -26,4 +27,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	UPROPERTY(EditAnywhere, Category = CharacterControl, Meta = (AllowPrivateAccess = "true"))
+	TMap<ECharacterControlType, class UABCharacterControlDataAsset*> CharacterControlManager;
+
+	virtual void SetCharacterControlData(const UABCharacterControlDataAsset* CharacterControlData);
 };

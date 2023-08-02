@@ -4,6 +4,8 @@
 #include "Character/ABCharacterBase.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "InputMappingContext.h"
+#include "Character/ABCharacterControlDataAsset.h"
 
 // Sets default values
 AABCharacterBase::AABCharacterBase()
@@ -33,7 +35,7 @@ AABCharacterBase::AABCharacterBase()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.0f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.0f;
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> CharacterMeshRef(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/Mannequins/Meshes/SKM_Quinn_Simple.SKM_Quinn_Simple'"));
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> CharacterMeshRef(TEXT("/Script/Engine.SkeletalMesh'/Game/InfinityBladeWarriors/Character/CompleteCharacters/SK_CharM_Cardboard.SK_CharM_Cardboard'"));
 	if (CharacterMeshRef.Object)
 	{
 		GetMesh()->SetSkeletalMesh(CharacterMeshRef.Object);
@@ -44,6 +46,19 @@ AABCharacterBase::AABCharacterBase()
 	{
 		GetMesh()->SetAnimInstanceClass(CharacterAnimRef.Class);
 	}
+
+
+	static ConstructorHelpers::FObjectFinder<UABCharacterControlDataAsset> ShoulderDataRef(TEXT("/Script/ArenaBattle.ABCharacterControlDataAsset'/Game/ArenaBattle/CharacterControl/ABC_Shoulder.ABC_Shoulder'"));
+	if (ShoulderDataRef.Object)
+	{
+		CharacterControlManager.Add(ECharacterControlType::Shoulder, ShoulderDataRef.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UABCharacterControlDataAsset> QuaterDataRef(TEXT("/Script/ArenaBattle.ABCharacterControlDataAsset'/Game/ArenaBattle/CharacterControl/ABC_Quater.ABC_Quater'"));
+	if (QuaterDataRef.Object)
+	{
+		CharacterControlManager.Add(ECharacterControlType::Quater, QuaterDataRef.Object);
+	}
 }
 
 // Called to bind functionality to input
@@ -51,5 +66,20 @@ void AABCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AABCharacterBase::SetCharacterControlData(const UABCharacterControlDataAsset* CharacterControlData)
+{
+	bUseControllerRotationYaw = CharacterControlData->bUseControlRotationYaw;
+
+	bUseControllerRotationPitch = CharacterControlData->bUseControlRotationPitch;
+
+	bUseControllerRotationRoll = CharacterControlData->bUseControlRotationRoll;
+
+	GetCharacterMovement()->RotationRate = CharacterControlData->RotationRate;
+
+	GetCharacterMovement()->bUseControllerDesiredRotation = CharacterControlData->bUseControllerDesiredRotation;
+
+	GetCharacterMovement()->bOrientRotationToMovement = CharacterControlData->bOrientRotationToMovement;
 }
 
