@@ -4,6 +4,7 @@
 #include "Character/ABCharacterPlayer.h"
 #include "Character/ABCharacterControlDataAsset.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "InputMappingContext.h"
 #include "EnhancedInputComponent.h"
@@ -11,7 +12,7 @@
 
 AABCharacterPlayer::AABCharacterPlayer()
 {
-	GetCharacterMovement()->MaxAcce
+	GetCharacterMovement()->MaxAcceleration = 200.0f;
 
 	// Camera
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -103,23 +104,19 @@ void AABCharacterPlayer::QuaterMove(const FInputActionValue& Value)
 	FVector2D MovementVector = Value.Get<FVector2D>();
 	float MovementVectorSizeSquared = MovementVector.SquaredLength();
 	float MovementVectorSize = 1.0f;
-	if (MovementVectorSizeSquared > 1.0f) {
-
+	if (MovementVectorSizeSquared > 1.0f)
+	{
 		MovementVector.Normalize();
-
 	}
-
-	else{
+	else
+	{
 		MovementVectorSize = FMath::Sqrt(MovementVectorSizeSquared);
 	}
+
 	FVector MoveDirection = FVector(MovementVector.X, MovementVector.Y, 0.0f);
-
 	GetController()->SetControlRotation(FRotationMatrix::MakeFromX(MoveDirection).Rotator());
-
 	AddMovementInput(MoveDirection, MovementVectorSize);
-
 }
-
 
 void AABCharacterPlayer::ChangeControl()
 {
@@ -161,10 +158,8 @@ void AABCharacterPlayer::SetCharacterControlData(const UABCharacterControlDataAs
 	CameraBoom->bUsePawnControlRotation = CharacterControlData->bUsePawnControlRotation;
 	CameraBoom->bDoCollisionTest = CharacterControlData->bDoCollisionTest;
 	CameraBoom->bInheritPitch = CharacterControlData->bInheritPitch;
-	CameraBoom->bInheritPitch = CharacterControlData->bInheritRoll;
-	CameraBoom->bInheritPitch = CharacterControlData->bInheritYaw;
-
-
+	CameraBoom->bInheritRoll = CharacterControlData->bInheritRoll;
+	CameraBoom->bInheritYaw = CharacterControlData->bInheritYaw;
 }
 
 void AABCharacterPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

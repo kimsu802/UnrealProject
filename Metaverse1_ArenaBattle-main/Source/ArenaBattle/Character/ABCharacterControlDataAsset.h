@@ -48,7 +48,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 	uint32 bUsePawnControlRotation : 1;
 
-
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 	uint32 bDoCollisionTest : 1;
 
@@ -60,11 +59,4 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = SpringArm)
 		uint32 bInheritPitch : 1;
-
-
-
-
-
-
-
 };

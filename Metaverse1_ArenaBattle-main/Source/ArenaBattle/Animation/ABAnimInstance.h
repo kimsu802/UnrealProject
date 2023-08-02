@@ -14,22 +14,17 @@ class ARENABATTLE_API UABAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 
-
 public:
 	UABAnimInstance();
 
 protected:
 	virtual void NativeInitializeAnimation() override;
-
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
-
-
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Charcter)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Character)
 	TObjectPtr<class ACharacter> Owner;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Charcter)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Character)
 	TObjectPtr<class UCharacterMovementComponent> Movement;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
@@ -40,7 +35,5 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Character)
 	FVector Velocity;
-
-
 	
 };

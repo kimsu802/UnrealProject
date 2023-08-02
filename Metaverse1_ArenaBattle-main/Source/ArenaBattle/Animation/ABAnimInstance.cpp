@@ -7,7 +7,6 @@
 
 UABAnimInstance::UABAnimInstance()
 {
-
 }
 
 void UABAnimInstance::NativeInitializeAnimation()
@@ -15,11 +14,9 @@ void UABAnimInstance::NativeInitializeAnimation()
 	Super::NativeInitializeAnimation();
 
 	Owner = Cast<ACharacter>(GetOwningActor());
-
-	if (Owner) {
-		
+	if (Owner)
+	{
 		Movement = Owner->GetCharacterMovement();
-
 	}
 }
 
@@ -27,10 +24,11 @@ void UABAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
-	Velocity = Movement->Velocity;
+	if (Movement)
+	{
+		Velocity = Movement->Velocity;
+		GroundSpeed = Velocity.Size2D();
 
-	GroundSpeed = Velocity.Size2D();
-
-	bIsRunning = GroundSpeed > 0.3f;
-
+		bIsRunning = GroundSpeed > 3.0f;
+	}
 }
