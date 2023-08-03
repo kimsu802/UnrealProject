@@ -32,4 +32,27 @@ protected:
 	TMap<ECharacterControlType, class UABCharacterControlDataAsset*> CharacterControlManager;
 
 	virtual void SetCharacterControlData(const UABCharacterControlDataAsset* CharacterControlData);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation)
+		TObjectPtr<class UAnimMontage> ComboActionMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AttackData, Meta = (AllowPrivateAccess  = "true"))
+		TObjectPtr<class UABComboActionData> ComboActionData;
+
+	void ProcessComboAttack();
+	void ComboActionBegin();
+	void ComboActionEnd(class UAnimMontage* TargetMontage, bool IsEnds);
+
+	int32 CurrentCombo = 0;
+
+
+	FTimerHandle ComboTimerHandle;
+	bool HasNextComboCommand = false;
+	
+	void SetComboCheckTimer();
+	void ComboCheck();
+
+
+
+
 };
